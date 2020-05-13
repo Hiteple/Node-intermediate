@@ -1,4 +1,4 @@
-const os = require('os');
+const os = require('learning/OS/os');
 
 // CPU Info
 console.log('CPU Info', os.cpus());
