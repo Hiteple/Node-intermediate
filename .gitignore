@@ -2,3 +2,4 @@
 node_modules
 .eslintcache
 pre-commit-linter.txt
+.env
