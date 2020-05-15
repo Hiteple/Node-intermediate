@@ -4,6 +4,9 @@ const app = express();
 const { config } = require('./config/index');
 const { moviesApi } = require('./routes/movies');
 
+// body parser middleware
+app.use(express.json());
+
 // Passing app to the route
 moviesApi(app);
 

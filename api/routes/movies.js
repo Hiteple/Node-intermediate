@@ -46,7 +46,7 @@ const moviesApi = (app) => {
     }
   });
 
-  router.put('/movieId', async (req, res, next) => {
+  router.put('/:movieId', async (req, res, next) => {
     const { movieId } = req.params;
     const { body: movie } = req;
     try {
@@ -63,7 +63,7 @@ const moviesApi = (app) => {
     }
   });
 
-  router.delete('/movieId', async (req, res, next) => {
+  router.delete('/:movieId', async (req, res, next) => {
     const { movieId } = req.params;
     try {
       const deletedMovie = await moviesService.deleteMovie({ movieId });
