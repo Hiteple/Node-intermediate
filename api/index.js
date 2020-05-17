@@ -5,10 +5,14 @@ const { config } = require('./config/index');
 const { moviesApi } = require('./routes/movies');
 
 // To capture 404 error
-const notFoundHandler = require('./utils/middlewares/notFoundHandler').notFoundHandler;
+const { notFoundHandler } = require('./utils/middlewares/notFoundHandler');
 
 // Middleware section
-const { logErrors, wrapErrors, errorHandler } = require('./utils/middlewares/errorHandler');
+const {
+  logErrors,
+  wrapErrors,
+  errorHandler,
+} = require('./utils/middlewares/errorHandler');
 // body parser middleware
 app.use(express.json());
 
