@@ -10,7 +10,7 @@ describe('routes - movies', function () {
   // We need to use proxyQuire in the movie routes but we don't need to analyze the MoviesService
   // So, we use the MovieServiceMock defined in test-server for this in proxyQuire method
   const route = () => {
-    return proxyQuire('../routes/movies', {
+    return proxyQuire.load('../routes/movies', {
       '../services/movies': MovieServiceMock,
     });
   };
