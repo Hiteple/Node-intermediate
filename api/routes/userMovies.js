@@ -9,7 +9,7 @@ const { createUserMovieSchema } = require('../utils/schemas/userMovies');
 
 function userMoviesApi(app) {
   const router = express.Router();
-  app.user('/api/user-movies', router);
+  app.use('/api/user-movies', router);
 
   const userMoviesService = new UserMoviesService();
 
@@ -53,8 +53,7 @@ function userMoviesApi(app) {
 
   router.delete(
     '/:userMovieId',
-    validationHandler({ userMovieId: movieIdSchema }),
-    'params',
+    validationHandler({ userMovieId: movieIdSchema }, 'params'),
     async function (req, res, next) {
       const { userMovieId } = req.params;
       try {

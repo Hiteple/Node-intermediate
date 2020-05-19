@@ -2,6 +2,9 @@ const express = require('express');
 const app = express();
 
 const { config } = require('./config/index');
+
+// Api
+const { authApi } = require('./routes/auth');
 const { moviesApi } = require('./routes/movies');
 const { userMoviesApi } = require('./routes/userMovies');
 
@@ -19,6 +22,7 @@ const {
 app.use(express.json());
 
 // Passing app to the route
+authApi(app);
 moviesApi(app);
 userMoviesApi(app);
 
