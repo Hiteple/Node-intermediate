@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "DEBUG=express:*,app:* nodemon index",
-    "start": "NODE_ENV=production node index"
+    "start": "NODE_ENV=production node index",
+    "prettier": "prettier --write '**/*.js'"
   },
   "keywords": [],
   "author": "",
@@ -22,5 +23,8 @@
     "passport-http": "^0.3.0",
     "passport-oauth": "^1.0.0",
     "passport-twitter": "^1.0.4"
+  },
+  "devDependencies": {
+    "prettier": "^2.0.5"
   }
 }
