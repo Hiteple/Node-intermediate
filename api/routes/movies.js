@@ -7,6 +7,9 @@ const {
   updateMovieSchema,
 } = require('../utils/schemas/movieSchema');
 const { validationHandler } = require('../utils/middlewares/validationHandler');
+const {
+  scopesValidationHandler,
+} = require('../utils/middlewares/scopesValidationHanlder');
 
 // JWT Strategy to protect routes
 //require('../utils/auth/strategies/jwt');
@@ -19,19 +22,22 @@ const moviesApi = (app) => {
   const moviesService = new MoviesService();
 
   // Routing Section
-  router.get('/', async (req, res, next) => {
-    const { tags } = req.query;
-    try {
-      const movies = await moviesService.getMovies({ tags });
+  router.get(
+    '/',
+    async (req, res, next) => {
+      const { tags } = req.query;
+      try {
+        const movies = await moviesService.getMovies({ tags });
 
-      return res.status(200).json({
-        data: movies,
-        message: 'Movies listed!',
-      });
-    } catch (err) {
-      next(err);
+        return res.status(200).json({
+          data: movies,
+          message: 'Movies listed!',
+        });
+      } catch (err) {
+        next(err);
+      }
     }
-  });
+  );
 
   router.get(
     '/:movieId',
