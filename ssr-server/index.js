@@ -76,9 +76,46 @@ app.post("/auth/sign-in", async function (req, res, next) {
 
 app.get("/movies", async function (req, res, next) {});
 
-app.post("/user-movies", async function (req, res, next) {});
+app.post("/user-movies", async function (req, res, next) {
+    try {
+        const { body: userMovie } = req;
+        const { token } = req.cookies;
+        const { data, status } = await axios({
+           url: `${config.apiUrl}/api/user-movies`,
+            headers: { Authorization: `Bearer ${token}` },
+            method: 'post',
+            data: userMovie
+        });
 
-app.delete("/user-movies/:userMovieId", async function (req, res, next) {});
+        if (status !== 201) {
+            return next(boom.badImplementation());
+        }
+
+        return res.status(201).json(data);
+    } catch (err) {
+        next(err);
+    }
+});
+
+app.delete("/user-movies/:userMovieId", async function (req, res, next) {
+    try {
+        const { userMovieId } = req.params;
+        const { token } = req.cookies;
+        const { data, status } = await axios({
+            url: `${config.apiUrl}/api/user-movies/${userMovieId}`,
+            headers: { Authorization: `Bearer ${token}` },
+            method: 'delete'
+        });
+
+        if (status !== 200) {
+            return next(boom.badImplementation());
+        }
+
+        return res.status(200).json(data);
+    } catch (err) {
+        next(err);
+    }
+});
 
 app.listen(config.port, function () {
   console.log(`Listening http://localhost:${config.port}`);
