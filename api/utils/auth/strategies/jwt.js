@@ -1,35 +1,31 @@
 const passport = require('passport');
-const { JwtStrategy, ExtractJwt } = require('passport-jwt');
+const { Strategy, ExtractJwt } = require('passport-jwt');
 const boom = require('@hapi/boom');
 
 const UsersService = require('../../../services/users');
-const { config: authJwtToken } = require('../../../config/index');
+const { config } = require('../../../config');
 
-// implementing JWT Strategy
 passport.use(
-  'jwt-strategy',
-  new JwtStrategy(
+  new Strategy(
     {
-      secretOrKey: authJwtToken,
+      secretOrKey: config.authJwtToken,
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     },
-    async function (tokenPayload, done) {
+    async function (tokenPayload, cb) {
       const usersService = new UsersService();
 
       try {
         const user = await usersService.getUser({ email: tokenPayload.email });
 
-        // Check if user is retrieved
         if (!user) {
-          return done(boom.unauthorized(), false);
+          return cb(boom.unauthorized(), false);
         }
 
         delete user.password;
 
-        // Return User and the token payload
-        done(null, { ...user, scopes: tokenPayload });
-      } catch (err) {
-        done(err);
+        cb(null, { ...user, scopes: tokenPayload.scopes });
+      } catch (error) {
+        return cb(error);
       }
     }
   )

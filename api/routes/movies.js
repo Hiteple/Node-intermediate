@@ -1,4 +1,5 @@
 const express = require('express');
+const passport = require('passport');
 const MoviesService = require('../services/movies');
 const {
   movieIdSchema,
@@ -6,6 +7,9 @@ const {
   updateMovieSchema,
 } = require('../utils/schemas/movieSchema');
 const { validationHandler } = require('../utils/middlewares/validationHandler');
+
+// JWT Strategy to protect routes
+//require('../utils/auth/strategies/jwt');
 
 const moviesApi = (app) => {
   const router = express.Router();
@@ -36,7 +40,7 @@ const moviesApi = (app) => {
       const { movieId } = req.params;
       try {
         const movies = await moviesService.getMovie({ movieId });
-        res.status(200).json({
+        return res.status(200).json({
           data: movies,
           message: 'Movie retrieved!',
         });
@@ -53,7 +57,7 @@ const moviesApi = (app) => {
       const { body: movie } = req;
       try {
         const createMovieId = await moviesService.createMovie({ movie });
-        res.status(201).json({
+        return res.status(201).json({
           data: createMovieId,
           message: 'Movies created!',
         });
@@ -75,7 +79,7 @@ const moviesApi = (app) => {
           movieId,
           movie,
         });
-        res.status(200).json({
+        return res.status(200).json({
           data: updatedMovieId,
           message: 'Movie updated!',
         });
@@ -92,7 +96,7 @@ const moviesApi = (app) => {
       const { movieId } = req.params;
       try {
         const deletedMovie = await moviesService.deleteMovie({ movieId });
-        res.status(200).json({
+        return res.status(200).json({
           data: deletedMovie,
           message: 'Movie deleted!',
         });
